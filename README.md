@@ -114,8 +114,6 @@ To recreate specific elements from the paper:
 - **Figure 8:** In `BlackLitterman_with-Constraint.ipynb`, reproduce this figure by executing cells up to the *Construct a Class for Each Single Period* section.
 - **Figures 9 and 10:** These figures can be reproduced by following the instructions in the *Adjusting the Composition of a Portfolio in Graphing* section of the `BlackLitterman_with-Constraint.ipynb` notebook.
 
-Certainly! Integrating your contribution guide into the document seamlessly complements the overall structure, providing a clear path for others to engage with and improve upon the work. Here's how the final section could look in your Markdown document:
-
 ## Contributing
 
 Contributions are what make the open-source community an incredibly enriching place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
