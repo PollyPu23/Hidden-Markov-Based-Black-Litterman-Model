@@ -24,34 +24,38 @@ Alternatively, you can download the repository directly from the GitHub page:
 
 [Hidden Markov Based Black-Litterman Model Repository](https://github.com/PollyPu23/Hidden-Markov-Based-Black-Litterman-Model.git)
 
-### Repository Structure
+### Structure of the Repository
 
-The repository is organized into two main directories:
+The repository is structured into two primary directories:
 
-- `Data`: Contains all input and output data.
-- `Code`: Contains Jupyter notebooks and self-created libraries for model building and analysis.
+- **`Data` Directory:** Contains all the input and output data necessary for the project.
+- **`Code` Directory:** Includes Jupyter notebooks for running the model, with detailed comments in markdown cells, and custom libraries for model construction.
 
-#### Code Directory Contents
+## Detailed File Descriptions
 
-- `EDA.ipynb`: Performs early-stage Exploratory Data Analysis (EDA) on 30 industry portfolios, including tests for stationarity.
-- `HMM.ipynb`: Applies the Hidden Markov Model (HMM) and a simple trading strategy to the food industry, extending to all 30 industries with generated confidence and active views.
-- `BlackLitterman.ipynb`: Demonstrates the construction and hyperparameter tuning of the Black-Litterman model on 30 industry portfolios, including detailed analysis and evaluation metrics.
-- `BlackLitterman_with-Constraint.ipynb`: Similar to `BlackLitterman.ipynb` but includes constraints on portfolio weights and optimization objectives, with additional analysis on hyperparameter selection.
-- `HMM.py`: A Python class supporting HMM analysis with visualization functions.
-- `black_litterman.py` & `black_litterman_constrained.py`: Python classes for performing the Bayesian framework and optimization with constraints in the Black-Litterman model.
-- `toolkit.py`: Provides helper functions for financial data analysis.
+### Code Directory
 
-#### Data Directory Contents
+- `EDA.ipynb`: An exploratory data analysis notebook for analyzing the distribution of the 30 industry portfolios. Includes additional tests for stationarity not covered in the main paper.
 
-Contains datasets such as:
-- Monthly US Treasury yields (`RF.csv`).
-- Hyperparameter combinations for HMM-BL portfolio returns (`all_hyper_combo_portfolio_returns.csv`).
-- Confidence and decisions datasets for simple and weighted trading algorithms.
-- The `Fama French 6 factors` dataset and `30 industry` datasets for various analyses.
+- `HMM.ipynb`: Demonstrates applying the Hidden Markov Model to the food industry, extending the algorithm to generate confidence and active views for all 30 industries, and implementing a simple trading strategy.
 
-### Required Packages and Versions
+- `BlackLitterman.ipynb`: Walks through the construction, determination of hyperparameters, and training of the model on 30 industry portfolios. It includes a detailed example of a one-period portfolio trained without constraints on weights, using only a mean variance objective. The latter part of the notebook focuses on analyzing the returns (HMM-BL) of selected hyperparameter combinations, an essential step in the study's trial and error process not included in the final paper results.
 
-Ensure the following packages are installed with their respective versions:
+- `BlackLitterman_with-Constraint.ipynb`: Contains similar components as the `BlackLitterman` notebook but adds constraints to the output HMM-BL portfolio weights and optimization over different objectives. This notebook concludes with an analysis of the best selected hyperparameter portfolios compared to baseline portfolios, presenting summary statistics included in the thesis.
+
+- `HMM.py`: A Python class designed to support the `HMM` notebook, including functions for visualizing the results on each industry.
+
+- `black_litterman.py` and `black_litterman_constrained.py`: Python classes to support Bayesian framework implementation in the `BlackLitterman` notebooks, with the latter extending the former to include weight constraints and optimization function selection.
+
+- `toolkit.py`: A utility library offering basic and helper functions for analyzing financial data, focusing on data transformation and summary statistical analysis.
+
+### Data Directory
+
+Contains datasets such as `RF.csv` for US Treasury yields, `all_hyper_combo_portfolio_returns.csv` for HMM-BL portfolio returns across various hyperparameter combinations, and several other datasets detailing confidence, decisions, and expected returns based on simple and weighted trading algorithms from July 1993 to July 2023. It also includes the `Fama French 6 factors` dataset and 30 industry monthly returns datasets.
+
+## Package Dependencies and Installation
+
+Before running the models, ensure the following packages are installed with their specified versions:
 
 - pandas 2.0.3
 - numpy 1.24.3
@@ -64,27 +68,74 @@ Ensure the following packages are installed with their respective versions:
 - hmmlearn 0.3.2
 - statsmodels 0.14.0
 
-Install these using Conda or Pip as appropriate for your environment.
+Use Conda or Pip to install these packages.
 
-## Workflow
+## Reproducing the Analysis
 
-### Running the Model
+For those interested in running the models and reproducing the paper's findings without engaging in the full breadth of additional analysis, the following streamlined process is recommended:
 
-1. **Initial Data Extraction:**
-   - Open `HMM.ipynb` and run the section "Extract Values into CSV" to generate decision, view, and confidence files. Example command:
-     ```python
-     decisions_simple, views_simple, confidence_simple = extract_data(train_size=2/3, window=200, omega=0.6, mu=0.5, metrics='simple')
-     # Save to CSV as demonstrated in the notebook.
-     ```
+### Environment Setup
 
-2. **Model Training and Analysis:**
-   - In `BlackLitterman_with-Constraint.ipynb`, import necessary packages and datasets, then proceed through the notebook to train the model, select hyperparameters, and analyze outcomes.
+Ensure that all necessary packages are installed using either Conda or Pip. Reference the list of packages and their specific versions provided earlier in this document.
 
-### Reproducing Paper Elements
+### Data Extraction and Preprocessing
 
-- **Tables 3 and 4:** Follow instructions in `BlackLitterman_with-Constraint.ipynb` under "Adjusting the Composition of a Portfolio in Graphing" section.
-- **Figures 1-4, 8-10:** Utilize `EDA.ipynb` and `BlackLitterman_with-Constraint.ipynb` as specified to generate relevant figures and tables.
+1. **Begin with the `HMM.ipynb` Notebook:**
+   - Open `HMM.ipynb` and import the required packages as outlined in the initial cell.
+   - Navigate to the *Extract Values into CSV* section.
+   - Execute the `extract_data` function with your chosen parameters for train size, window, omega, mu, and metrics. This step is crucial for generating the decision, view, and confidence files needed for subsequent analyses. For replication consistent with the paper, execute the following commands:
 
-This comprehensive guide should facilitate the reproduction of all analyses and results from the Hidden Markov Based Black-Litterman Model project.
+```python
+decisions_simple, views_simple, confidence_simple = extract_data(train_size=2/3, window=200, omega=0.6, mu=0.5, metrics='simple')
+decisions_weighted, views_weighted, confidence_weighted = extract_data(train_size=2/3, window=200, omega=0.6, mu=0.5, metrics='weighted')
+
+# Save the extracted data to CSV files for further use.
+confidence_simple.to_csv('../Data/confidence_simple.csv')
+decisions_simple.to_csv('../Data/decisions_simple.csv')
+views_simple.to_csv('../Data/views_simple.csv')
+confidence_weighted.to_csv('../Data/confidence_weighted.csv')
+decisions_weighted.to_csv('../Data/decisions_weighted.csv')
+views_weighted.to_csv('../Data/views_weighted.csv')
+```
+
+2. **Proceed to the `BlackLitterman_with-Constraint.ipynb` Notebook:**
+   - Import the necessary packages and datasets as instructed at the beginning of the notebook.
+   - Follow the steps outlined in the *Building Trailing Window* section to set up your analysis environment.
+   - Continue through the notebook, executing all cells under the *Hyperparameter Selection* section to generate portfolio returns across all hyperparameter combinations.
+   - Analyze and compare the best hyperparameter portfolios with baseline models in the *Visualization on Best Hyperparameter Models* section.
+   - In the *Adjusting the Composition of a Portfolio in Graphing* section, generate backtesting results and metrics for both baseline portfolios and HMM-BL portfolios.
+
+### Reproducing Paper Figures and Tables
+
+To recreate specific elements from the paper:
+
+- **Tables 3 and 4:** These can be generated by running the relevant code in the `BlackLitterman_with-Constraint.ipynb` notebook, specifically within the *Adjusting the Composition of a Portfolio in Graphing* section.
+- **Figures 1-4:** Execute all cells in `EDA.ipynb` up to the point marked “Trying Food First” to generate these figures.
+- **Figure 8:** In `BlackLitterman_with-Constraint.ipynb`, reproduce this figure by executing cells up to the *Construct a Class for Each Single Period* section.
+- **Figures 9 and 10:** These figures can be reproduced by following the instructions in the *Adjusting the Composition of a Portfolio in Graphing* section of the `BlackLitterman_with-Constraint.ipynb` notebook.
+
+Certainly! Integrating your contribution guide into the document seamlessly complements the overall structure, providing a clear path for others to engage with and improve upon the work. Here's how the final section could look in your Markdown document:
+
+## Contributing
+
+Contributions are what make the open-source community an incredibly enriching place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would enhance this project, we encourage you to take action by participating in its development. Here’s how you can do so:
+
+1. **Fork the Project:** Navigate to the GitHub repository and use the fork button to create your own copy of the project.
+2. **Create Your Feature Branch:** Checkout a new branch for your feature by running `git checkout -b newEdits/SuggestedImprovements`.
+3. **Commit Your Changes:** Once your feature is ready, commit your changes with a descriptive message, e.g., `git commit -m 'Add some suggested improvements'`.
+4. **Push to the Branch:** Upload your feature branch to your forked repository with `git push origin newEdits/SuggestedImprovements`.
+5. **Open a Pull Request:** From your forked repository, initiate a pull request. This is your opportunity to share your contribution with the project.
+
+Feel free to open an issue with the tag "enhancement" if you have suggestions but are not ready to make a direct contribution. And don't forget to give the project a star if you find it helpful!
+
+## Contact
+
+Should you have any questions or wish to discuss this project further, please feel free to reach out:
+
+- **Polly Pu** - pollypqt1101@berkeley.edu
+
+Your interest and contributions are what continue to drive the remarkable progress and innovation within the open-source community. Thank you for your support and engagement!
 
 ---
