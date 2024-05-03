@@ -4,6 +4,7 @@ This paper introduces a groundbreaking research project that leverages a Hidden 
 
 Ultimately, this project aspires to bolster financial literacy, fostering a culture of resilience and savvy decision-making amid economic adversities. By peeling back the layers of market operations and elucidating the underpinnings of financial turmoil, it aims to empower society at large. In doing so, the research not only contributes to academic discourse but also holds the promise of making a profound impact on the practical world, guiding individuals towards a more informed, secure, and financially literate future.
 
+To read the thesis: [Link to PDF](./Markov’s Insight/ Unveiling Active Views with Hidden Markov Models for Enhanced Black-Litterman Portfolio Optimization.pdf)
 ---
 
 # Reproducing the Hidden Markov Based Black-Litterman Model Project
